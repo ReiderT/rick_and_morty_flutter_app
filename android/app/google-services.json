@@ -1,0 +1,67 @@
+{
+  "project_info": {
+    "project_number": "168995805349",
+    "project_id": "flutterfire-ui-codelab-3a00b",
+    "storage_bucket": "flutterfire-ui-codelab-3a00b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168995805349:android:1cc481d5527e12bd81554c",
+        "android_client_info": {
+          "package_name": "com.example.complete"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAphh-8_Xac2SSPECFjcsHYo6kQxvnUB6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168995805349:android:3d1dcd683861e91181554c",
+        "android_client_info": {
+          "package_name": "com.example.loggin_register_firebase"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAphh-8_Xac2SSPECFjcsHYo6kQxvnUB6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168995805349:android:51a13dd3c8d7a7b481554c",
+        "android_client_info": {
+          "package_name": "com.example.rick_and_morty_api"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAphh-8_Xac2SSPECFjcsHYo6kQxvnUB6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
