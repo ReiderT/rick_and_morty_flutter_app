@@ -36,7 +36,7 @@ class _CustomButton2State extends State<CustomButton2> with SingleTickerProvider
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 600,),
+      duration: const Duration(milliseconds: 300,),
     );
     _radiusAnimation = Tween<double>(
       begin: 0.0, 
@@ -59,9 +59,17 @@ class _CustomButton2State extends State<CustomButton2> with SingleTickerProvider
   }
 
   void _handleTapUp(TapUpDetails details) {
+    // Guardar la posición del tap
     _tapPosition = details.localPosition;
-    widget.onTap?.call();
-    _controller.forward();
+
+    // Iniciar la animación
+    _controller.forward().then((_) {
+      // Resetear el controlador después de que la animación se complete
+      _controller.reset();
+
+      // Llamar al evento onTap después de la animación
+      widget.onTap?.call();
+    });
   }
 
   @override
@@ -119,7 +127,7 @@ class RipplePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var paint = Paint()..color = Colors.white.withOpacity(1 - (radius / 30.0));
+    var paint = Paint()..color = AppDarkTheme.primaryColor.withOpacity(1 - (radius / 30.0));
     canvas.drawCircle(position, radius, paint);
   }
 

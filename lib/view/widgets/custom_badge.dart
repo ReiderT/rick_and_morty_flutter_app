@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:rick_and_morty_api/view/theme/app_theme.dart';
 
@@ -5,6 +7,7 @@ class CustomBadge extends StatefulWidget {
   final Widget? label;
   final Widget? icon;
   final double? height;
+  final double? width;
   final Color? backgroundColor;
   final Color? borderLineColor;
   final double? borderRadius;
@@ -16,6 +19,7 @@ class CustomBadge extends StatefulWidget {
     this.label,
     this.icon,
     this.height,
+    this.width,
     this.backgroundColor,
     this.borderLineColor,
     this.borderRadius,
@@ -30,6 +34,8 @@ class CustomBadge extends StatefulWidget {
 class _CustomBadgeState extends State<CustomBadge> with TickerProviderStateMixin {
   late ScrollController _scrollController;
   late AnimationController _animationController;
+
+  final GlobalKey _key = GlobalKey();
 
   @override
   void initState() {
@@ -65,29 +71,46 @@ class _CustomBadgeState extends State<CustomBadge> with TickerProviderStateMixin
     super.dispose();
   }
 
+  void getSize() {
+    final RenderBox? renderBox = _key.currentContext?.findRenderObject() as RenderBox?;
+    final size = renderBox!.size;
+    log("Tamaño: $size");  
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: widget.height ?? 40.0,
-      decoration: BoxDecoration(
-        color: widget.backgroundColor ?? AppDarkTheme.black800,
-        border: Border.all(color: widget.borderLineColor ?? AppDarkTheme.black800),
-        borderRadius: BorderRadius.circular(widget.borderRadius ?? 24.0),
-      ),
-      padding: widget.padding ?? const EdgeInsets.all(10),
-      alignment: Alignment.center,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        controller: _scrollController,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (widget.icon != null) ...[
-              widget.icon!,
-              const SizedBox(width: 4),
+
+    return GestureDetector(
+      onTap: () {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+        final RenderBox? renderBox = _key.currentContext?.findRenderObject() as RenderBox?;
+        final size = renderBox?.size;
+        log("Tamaño: $size");   
+        });
+      },
+      child: Container(
+        height: widget.height ?? 40.0,
+        width: widget.width,
+        decoration: BoxDecoration(
+          color: widget.backgroundColor ?? AppDarkTheme.black800,
+          border: Border.all(color: widget.borderLineColor ?? AppDarkTheme.black800),
+          borderRadius: BorderRadius.circular(widget.borderRadius ?? 24.0),
+        ),
+        padding: widget.padding ?? const EdgeInsets.all(10),
+        alignment: Alignment.center,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          controller: _scrollController,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (widget.icon != null) ...[
+                widget.icon!,
+                const SizedBox(width: 4),
+              ],
+              widget.label ?? const SizedBox(width: 20, height: 20),
             ],
-            widget.label ?? const SizedBox(width: 20, height: 20),
-          ],
+          ),
         ),
       ),
     );

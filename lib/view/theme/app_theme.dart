@@ -20,12 +20,12 @@ abstract class AppDarkTheme {
     fontFamily: 'Nunito',
     appBarTheme: AppBarTheme(
       elevation: 0,
-      backgroundColor: AppDarkTheme.black600,
-      surfaceTintColor: AppDarkTheme.black600,
+      backgroundColor: black600,
+      surfaceTintColor: black600,
       iconTheme: const IconThemeData(
         color: Colors.white,
       )
     ),
-    scaffoldBackgroundColor: AppDarkTheme.black900,
+    scaffoldBackgroundColor: black900,
   );
 }

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:rick_and_morty_api/view/theme/app_theme.dart';
 import 'package:rick_and_morty_api/view/theme/text_styles.dart';
 import 'package:rick_and_morty_api/view/widgets/card1.dart';
+import 'package:rick_and_morty_api/view/widgets/custom_search_delegate.dart';
 import 'package:rick_and_morty_api/viewmodel/api_viewmodel.dart';
 import 'package:rick_and_morty_api/viewmodel/auth_view_model.dart';
 
@@ -43,13 +44,13 @@ class _HomePageState extends State<HomePage> {
     final screenHeight = MediaQuery.of(context).size.height;
     final screenWidth = MediaQuery.of(context).size.width;
 
-    final vm = Provider.of<CharacterViewModel>(context);
+    final characterViewModel = Provider.of<CharacterViewModel>(context);
 
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppDarkTheme.black900,
         //appBar: buildAppBar(screenWidth),
-        body: vm.characters.isEmpty
+        body: characterViewModel.characters.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : KeyboardDismisser(
               child: CustomScrollView(
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage> {
                   // Search Bar
                   const SearchBar(),
                   // Content
-                  CharacterList(vm: vm, screenHeight: screenHeight),
+                  CharacterList(characterViewModel: characterViewModel, screenHeight: screenHeight),
                 ],
               ),
             ),
@@ -69,40 +70,6 @@ class _HomePageState extends State<HomePage> {
       
   }
 
-}
-
-class CharacterList extends StatelessWidget {
-  const CharacterList({
-    super.key,
-    required this.vm,
-    required this.screenHeight,
-  });
-
-  final CharacterViewModel vm;
-  final double screenHeight;
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverList(
-      delegate: SliverChildBuilderDelegate(
-        childCount: vm.characters.length,
-        (BuildContext context, int index) {
-          var character = vm.characters[index];
-          return Padding(
-            padding: const EdgeInsets.only(left: 16.0, right: 16.0, ),
-            child: CardStyle1(
-              avatarImage: character.image,
-              name: character.name,
-              specie: character.species,
-              status: character.status,
-              origin: character.origin.name,
-              screenHeight: screenHeight,
-            ),
-          );
-        }
-      )
-    );
-  }
 }
 
 class CustomAppBar extends StatelessWidget {
@@ -186,9 +153,65 @@ class SearchBar extends StatelessWidget {
       surfaceTintColor: AppDarkTheme.black900,
       elevation: 0,
       pinned: true,
-      collapsedHeight: 90.0,
+      collapsedHeight: 120.0,
       flexibleSpace: Container(
-        padding: const EdgeInsets.only(left: 16.0, top: 20.0, right: 16.0, bottom: 20.0),
+        padding: const EdgeInsets.only(left: 16.0, top: 30.0, right: 16.0, bottom: 40.0),
+        color: AppDarkTheme.black900,
+        child: GestureDetector(
+          onTap: () => showSearch(context: context, delegate: CustomSearchDelegate()),
+          child: Container(
+            height: 60.0,
+            margin: EdgeInsets.zero,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              color: AppDarkTheme.black800,
+              borderRadius: BorderRadius.circular(24.0),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0) ,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Center(
+                    child: Icon(
+                      Icons.search,
+                      color: AppDarkTheme.grayColor ,
+                    ),
+                  ),
+                  const SizedBox(width: 10.0,),
+                  Expanded(
+                    child: Text(
+                      'Buscar personaje',
+                      style: TextStyle(color: AppDarkTheme.grayColor),
+                    ),
+                  ),
+                ]
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/*
+class SearchBar extends StatelessWidget {
+  const SearchBar({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverAppBar(
+      backgroundColor: AppDarkTheme.black900,// Search background color
+      surfaceTintColor: AppDarkTheme.black900,
+      elevation: 0,
+      pinned: true,
+      collapsedHeight: 120.0,
+      flexibleSpace: Container(
+        padding: const EdgeInsets.only(left: 16.0, top: 30.0, right: 16.0, bottom: 40.0),
         color: AppDarkTheme.black900,
         child: Container(
           height: 60.0,
@@ -228,6 +251,39 @@ class SearchBar extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+*/
+
+class CharacterList extends StatelessWidget {
+  const CharacterList({
+    super.key,
+    required this.characterViewModel,
+    required this.screenHeight,
+  });
+
+  final CharacterViewModel characterViewModel;
+  final double screenHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        childCount: characterViewModel.characters.length,
+        (BuildContext context, int index) {
+          //var character = vm.characters[index];
+          return Padding(
+            padding: const EdgeInsets.only(left: 16.0, right: 16.0, ),
+            child: CardStyle1(
+              character: characterViewModel.characters[ index ],
+              screenHeight: screenHeight,
+              isBadges: true,
+              originPage: 'home_page',
+            ),
+          );
+        }
+      )
     );
   }
 }
