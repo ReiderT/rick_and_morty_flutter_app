@@ -49,7 +49,6 @@ class _HomePageState extends State<HomePage> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: AppDarkTheme.black900,
-        //appBar: buildAppBar(screenWidth),
         body: characterViewModel.characters.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : KeyboardDismisser(
@@ -195,66 +194,6 @@ class SearchBar extends StatelessWidget {
     );
   }
 }
-
-/*
-class SearchBar extends StatelessWidget {
-  const SearchBar({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverAppBar(
-      backgroundColor: AppDarkTheme.black900,// Search background color
-      surfaceTintColor: AppDarkTheme.black900,
-      elevation: 0,
-      pinned: true,
-      collapsedHeight: 120.0,
-      flexibleSpace: Container(
-        padding: const EdgeInsets.only(left: 16.0, top: 30.0, right: 16.0, bottom: 40.0),
-        color: AppDarkTheme.black900,
-        child: Container(
-          height: 60.0,
-          margin: EdgeInsets.zero,
-          width: MediaQuery.of(context).size.width,
-          decoration: BoxDecoration(
-            color: AppDarkTheme.black800,
-            borderRadius: BorderRadius.circular(24.0),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0) ,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Center(
-                  child: Icon(
-                    Icons.search,
-                    color: AppDarkTheme.grayColor ,
-                  ),
-                ),
-                const SizedBox(width: 10.0,),
-                Expanded(
-                  child: TextField(
-                    textAlignVertical: TextAlignVertical.center,
-                    cursorColor: AppDarkTheme.primaryColor,
-                    decoration: InputDecoration(
-                      hintStyle: TextStyles.body2(color: AppDarkTheme.grayColor),
-                      border: InputBorder.none,
-                      hintText: 'Buscar personaje',
-                    ),
-                  ),
-                ),
-            
-              ]
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-*/
 
 class CharacterList extends StatelessWidget {
   const CharacterList({

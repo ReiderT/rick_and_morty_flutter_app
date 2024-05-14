@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:rick_and_morty_api/model/character_model.dart';
 import 'package:rick_and_morty_api/view/theme/app_theme.dart';
 import 'package:rick_and_morty_api/view/theme/text_styles.dart';
+import 'package:rick_and_morty_api/view/widgets/custom_gradient.dart';
 import 'package:rick_and_morty_api/viewmodel/api_viewmodel.dart';
 import 'package:rick_and_morty_api/viewmodel/navigation_view_model.dart';
 
@@ -112,7 +113,7 @@ class CustomSearchDelegate extends SearchDelegate {
             child: ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
-                final character = snapshot.data![index];
+                final character = snapshot.data![ index ];
                 return ListTile(
                   onTap: () {
                     Provider.of<NavigationProvider>(context, listen: false).origin = 'search_page';
@@ -229,25 +230,22 @@ class CustomSearchDelegate extends SearchDelegate {
                   int indexCategory = entry.key;
                   String category = entry.value;
 
-                  return GestureDetector(
+                  return ListTile(
+                    style: ListTileStyle.list,
                     onTap: () {
                       indexOfSelectedCategory = indexCategory;
                       selectedCategory = category;
-                      //log("Categoría seleccionada: $category, index: $indexOfSelectedCategory");
                       query = '';
-                      context.pop(context);  // Cierra el diálogo
-                      showSuggestions(context);  // Update UI based on the selected category
+                      context.pop(context);
+                      showSuggestions(context);
                     },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          category,
-                          style: TextStyles.body1(fontWeight: TextStyles.fontWeightRegular),
-                        ),
-                        const SizedBox(height: 15.0,)
-                      ],
-                    ),
+                    title: CustomGradient(
+                      alignment: true,
+                      gradient: indexOfSelectedCategory == indexCategory ? null : const LinearGradient(colors: [Colors.white, Colors.white]),
+                      widget: Text(category, style: TextStyles.body1()),
+                    ), 
+                    minVerticalPadding: 1.0,
+                    leading: indexOfSelectedCategory == indexCategory ? Icon(Icons.check_circle, color: AppDarkTheme.primaryColor) : null, 
                   );
                 }).toList(),
               ),
